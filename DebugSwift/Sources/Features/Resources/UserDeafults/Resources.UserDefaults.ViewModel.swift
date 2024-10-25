@@ -49,8 +49,15 @@ final class ResourcesUserDefaultsViewModel: NSObject, ResourcesGenericListViewMo
 
     func dataSourceForItem(atIndex index: Int) -> ViewData {
         let key = isSearchActived ? filteredKeys[index] : keys[index]
-        let value = "\(UserDefaults.standard.object(forKey: key) ?? "")"
-        return .init(title: key, value: value)
+        let value = UserDefaults.standard.object(forKey: key)
+        let string: String
+        if let data = value as? Data, let dataAsStirng = String(data: data, encoding: .utf8) {
+            string = dataAsStirng
+        } else {
+            string = "\(value ?? "")"
+        }
+
+        return .init(title: key, value: string)
     }
 
     func handleClearAction() {
