@@ -19,6 +19,10 @@ public enum DebugSwiftFeature: String, CaseIterable {
     case app
 }
 
+public enum DebugSwiftOption {
+    case userDefaults(suiteNames: [String])
+}
+
 public enum DebugSwiftSwizzleFeature: String, CaseIterable {
     case network
     case location

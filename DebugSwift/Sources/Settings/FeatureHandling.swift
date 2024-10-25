@@ -11,19 +11,14 @@ import UIKit
 enum FeatureHandling {
 
     static func setup(
-        only featuresToShow: [DebugSwiftFeature] = DebugSwiftFeature.allCases
-    ) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            DebugSwift.App.defaultControllers.removeAll(where: { !featuresToShow.contains($0.controllerType) })
-            FloatViewManager.setup(TabBarController())
-        }
-    }
-
-    static func setup(
         hide features: [DebugSwiftFeature],
-        disable methods: [DebugSwiftSwizzleFeature]
+        disable methods: [DebugSwiftSwizzleFeature],
+        options: [DebugSwiftOption]
     ) {
-        setupControllers(features)
+        setupControllers(
+            featuresToHide: features,
+            options: options
+        )
         setupMethods(methods)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -31,7 +26,11 @@ enum FeatureHandling {
         }
     }
 
-    private static func setupControllers(_ featuresToHide: [DebugSwiftFeature]) {
+    private static func setupControllers(
+        featuresToHide: [DebugSwiftFeature],
+        options: [DebugSwiftOption]
+    ) {
+        DebugSwift.App.options = options
         DebugSwift.App.defaultControllers.removeAll(where: { featuresToHide.contains($0.controllerType) })
     }
 

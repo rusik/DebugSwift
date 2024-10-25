@@ -10,17 +10,24 @@ import Foundation
 
 final class ResourcesUserDefaultsViewModel: NSObject, ResourcesGenericListViewModel {
 
+    private let userDefaults: UserDefaults
+    private let suiteName: String?
     private var keys = [String]()
 
     // MARK: - Initialization
 
-    override init() {
+    init(
+        userDefaults: UserDefaults,
+        suiteName: String?
+    ) {
+        self.userDefaults = userDefaults
+        self.suiteName = suiteName
         super.init()
         setupKeys()
     }
 
     private func setupKeys() {
-        keys = UserDefaults.standard.dictionaryRepresentation().keys.sorted()
+        keys = userDefaults.dictionaryRepresentation().keys.sorted()
         if let latitudeIndex = keys.firstIndex(
             of: LocationToolkit.Constants.simulatedLatitude
         ) {
@@ -30,6 +37,12 @@ final class ResourcesUserDefaultsViewModel: NSObject, ResourcesGenericListViewMo
             of: LocationToolkit.Constants.simulatedLongitude
         ) {
             keys.remove(at: longitudeIndex)
+        }
+        if userDefaults != UserDefaults.standard {
+            let standardKeys = UserDefaults.standard.dictionaryRepresentation().keys
+            keys = keys.filter {
+                !standardKeys.contains($0)
+            }
         }
     }
 
@@ -41,6 +54,7 @@ final class ResourcesUserDefaultsViewModel: NSObject, ResourcesGenericListViewMo
 
     func viewTitle() -> String {
         "User defaults"
+        + (suiteName == nil ? "" : " (\(suiteName!))")
     }
 
     func numberOfItems() -> Int {
@@ -49,7 +63,7 @@ final class ResourcesUserDefaultsViewModel: NSObject, ResourcesGenericListViewMo
 
     func dataSourceForItem(atIndex index: Int) -> ViewData {
         let key = isSearchActived ? filteredKeys[index] : keys[index]
-        let value = UserDefaults.standard.object(forKey: key)
+        let value = userDefaults.object(forKey: key)
         let string: String
         if let data = value as? Data, let dataAsStirng = String(data: data, encoding: .utf8) {
             string = dataAsStirng
@@ -62,17 +76,17 @@ final class ResourcesUserDefaultsViewModel: NSObject, ResourcesGenericListViewMo
 
     func handleClearAction() {
         for key in keys {
-            UserDefaults.standard.removeObject(forKey: key)
+            userDefaults.removeObject(forKey: key)
         }
-        UserDefaults.standard.synchronize()
+        userDefaults.synchronize()
         keys.removeAll()
         filteredKeys.removeAll()
     }
 
     func handleDeleteItemAction(atIndex index: Int) {
         let key = isSearchActived ? filteredKeys.remove(at: index) : keys.remove(at: index)
-        UserDefaults.standard.removeObject(forKey: key)
-        UserDefaults.standard.synchronize()
+        userDefaults.removeObject(forKey: key)
+        userDefaults.synchronize()
 
         if isSearchActived {
             keys.removeAll(where: { $0 == key })
@@ -80,7 +94,9 @@ final class ResourcesUserDefaultsViewModel: NSObject, ResourcesGenericListViewMo
     }
 
     func emptyListDescriptionString() -> String {
-        "empty-data".localized() + "User Defaults"
+        "empty-data".localized() 
+        + "User Defaults"
+        + (suiteName == nil ? "" : " (\(suiteName!))")
     }
 
     // MARK: - Search Functionality

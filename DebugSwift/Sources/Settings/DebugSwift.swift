@@ -12,10 +12,15 @@ public enum DebugSwift {
     @discardableResult
     public static func setup(
         hideFeatures features: [DebugSwiftFeature] = [],
-        disable methods: [DebugSwiftSwizzleFeature] = []
+        disable methods: [DebugSwiftSwizzleFeature] = [],
+        options: [DebugSwiftOption] = []
     ) -> Self.Type {
         LocalizationManager.shared.loadBundle()
-        FeatureHandling.setup(hide: features, disable: methods)
+        FeatureHandling.setup(
+            hide: features,
+            disable: methods,
+            options: options
+        )
         LaunchTimeTracker.measureAppStartUpTime()
 
         return self
