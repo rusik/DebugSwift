@@ -18,6 +18,7 @@ class TabBarController: UITabBarController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        FloatViewManager.isShowingDebuggerView = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -25,6 +26,11 @@ class TabBarController: UITabBarController {
         UIView.animate(withDuration: DSFloatChat.animationDuration) {
             WindowManager.showNavigationBar()
         }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        FloatViewManager.isShowingDebuggerView = false
     }
 
     private func configureTabBar() {

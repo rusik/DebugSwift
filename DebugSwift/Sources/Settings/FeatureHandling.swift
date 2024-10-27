@@ -21,7 +21,8 @@ enum FeatureHandling {
         )
         setupMethods(methods)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        let delay: TimeInterval = DebugSwift.App.options.contains(.hideFloatingButton) ? 0 : 1
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             FloatViewManager.setup(TabBarController())
         }
     }

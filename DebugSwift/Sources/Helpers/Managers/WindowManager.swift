@@ -33,23 +33,25 @@ enum WindowManager {
 
     static func presentDebugger() {
         guard !FloatViewManager.isShowingDebuggerView else { return }
-        FloatViewManager.isShowingDebuggerView = true
         if let viewController = FloatViewManager.shared.floatViewController {
             // Prevent clicks
             UIApplication.shared.beginIgnoringInteractionEvents()
             // Remove keyboard, if opened.
             UIWindow.keyWindow?.endEditing(true)
 
-            rootNavigation?.pushViewController(
-                viewController,
-                animated: true
-            )
+            if DebugSwift.App.options.contains(.hideFloatingButton) {
+                rootNavigation?.present(viewController, animated: true)
+            } else {
+                rootNavigation?.pushViewController(
+                    viewController,
+                    animated: true
+                )
+            }
             UIApplication.shared.endIgnoringInteractionEvents()
         }
     }
 
     static func removeDebugger() {
-        FloatViewManager.isShowingDebuggerView = false
         removeNavigationBar()
         rootNavigation?.popViewController(animated: true)
     }
@@ -64,7 +66,6 @@ enum WindowManager {
 
     static func presentViewDebugger() {
         guard !FloatViewManager.isShowingDebuggerView else { return }
-        FloatViewManager.isShowingDebuggerView = true
 
         let alertController = UIAlertController(
             title: "Select a Window",
@@ -116,7 +117,6 @@ enum WindowManager {
     }
 
     static func removeViewDebugger() {
-        FloatViewManager.isShowingDebuggerView = false
         rootNavigation?.dismiss(animated: true)
     }
 }

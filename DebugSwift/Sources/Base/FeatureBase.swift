@@ -19,8 +19,9 @@ public enum DebugSwiftFeature: String, CaseIterable {
     case app
 }
 
-public enum DebugSwiftOption {
+public enum DebugSwiftOption: Equatable {
     case userDefaults(suiteNames: [String])
+    case hideFloatingButton
 }
 
 public enum DebugSwiftSwizzleFeature: String, CaseIterable {

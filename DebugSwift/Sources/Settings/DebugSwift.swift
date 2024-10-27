@@ -28,8 +28,12 @@ public enum DebugSwift {
 
     @discardableResult
     public static func show() -> Self.Type {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            FloatViewManager.show()
+        if DebugSwift.App.options.contains(.hideFloatingButton) {
+            WindowManager.presentDebugger()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                FloatViewManager.show()
+            }
         }
 
         return self
@@ -43,7 +47,9 @@ public enum DebugSwift {
 
     @discardableResult
     public static func toggle() -> Self.Type {
-        FloatViewManager.toggle()
+        if !DebugSwift.App.options.contains(.hideFloatingButton) {
+            FloatViewManager.toggle()
+        }
 
         return self
     }

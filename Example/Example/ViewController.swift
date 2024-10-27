@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DebugSwift
 
 class ViewController: UIViewController {
 
@@ -59,6 +60,10 @@ class ViewController: UIViewController {
 
     @IBAction func createLeak() {
         present(LeakViewController(), animated: true)
+    }
+
+    @IBAction func showDebugger() {
+        DebugSwift.show()
     }
 }
 

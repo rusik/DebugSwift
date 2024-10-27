@@ -23,7 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            .theme(appearance: .light)
 
         DebugSwift
-            .setup()
+        .setup(
+//          options: [.hideFloatingButton]
+        )
 
         // MARK: - Custom Info
 
@@ -81,8 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         DebugSwift.Debugger.logEnable = true
         DebugSwift.Debugger.feedbackEnable = true
-
-        DebugSwift.show()
 
         return true
     }
