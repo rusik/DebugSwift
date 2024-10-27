@@ -26,7 +26,9 @@ class BaseTableController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.prefersLargeTitles = true
+        if !DebugSwift.App.options.contains(.disableLargeTitles) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
     }
 
     func configureAppearance() {

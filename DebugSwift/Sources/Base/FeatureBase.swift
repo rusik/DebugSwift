@@ -22,6 +22,7 @@ public enum DebugSwiftFeature: String, CaseIterable {
 public enum DebugSwiftOption: Equatable {
     case userDefaults(suiteNames: [String])
     case hideFloatingButton
+    case disableLargeTitles
 }
 
 public enum DebugSwiftSwizzleFeature: String, CaseIterable {

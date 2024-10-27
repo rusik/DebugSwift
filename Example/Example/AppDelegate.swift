@@ -24,7 +24,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         DebugSwift
         .setup(
-//          options: [.hideFloatingButton]
+          options: [
+//            .userDefaults(suiteNames: ["custom"]),
+//            .hideFloatingButton,
+//            .disableLargeTitles
+          ]
         )
 
         // MARK: - Custom Info
