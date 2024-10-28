@@ -65,8 +65,8 @@ final class ResourcesUserDefaultsViewModel: NSObject, ResourcesGenericListViewMo
         let key = isSearchActived ? filteredKeys[index] : keys[index]
         let value = userDefaults.object(forKey: key)
         let string: String
-        if let data = value as? Data, let dataAsStirng = String(data: data, encoding: .utf8) {
-            string = dataAsStirng
+        if let data = value as? Data {
+            string = data.prettyPrinted()
         } else {
             string = "\(value ?? "")"
         }

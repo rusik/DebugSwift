@@ -34,4 +34,8 @@ extension String {
         let padding = String(repeating: withPad, count: toLength - count)
         return padding + self
     }
+
+    func removeEscapedSlashes() -> String {
+        return self.replacingOccurrences(of: "\\/", with: "/")
+    }
 }

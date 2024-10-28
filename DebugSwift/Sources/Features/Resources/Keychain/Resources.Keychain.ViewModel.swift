@@ -52,7 +52,8 @@ final class ResourcesKeychainViewModel: NSObject, ResourcesGenericListViewModel 
 
     func dataSourceForItem(atIndex index: Int) -> ViewData {
         let key = isSearchActived ? filteredKeys[index] : keys[index]
-        let value = (try? keychain.get(key)) ?? ""
+        let data = (try? keychain.getData(key))
+        let value = data?.prettyPrinted() ?? ""
         return .init(title: key, value: value)
     }
 

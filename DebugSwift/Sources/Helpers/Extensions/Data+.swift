@@ -18,8 +18,14 @@ extension Data {
 
     func formattedString() -> String {
         do {
-            let jsonObject = try JSONSerialization.jsonObject(with: self, options: [])
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+            let jsonObject = try JSONSerialization.jsonObject(
+                with: self,
+                options: [.fragmentsAllowed]
+            )
+            let jsonData = try JSONSerialization.data(
+                withJSONObject: jsonObject,
+                options: [.prettyPrinted, .fragmentsAllowed]
+            )
             if let formattedString = String(data: jsonData, encoding: .utf8) {
                 return formattedString
             }
@@ -27,6 +33,10 @@ extension Data {
 
         // Can adjust to get the image and the jsons formatted
         return String(data: self, encoding: .utf8) ?? String(decoding: self, as: UTF8.self)
+    }
+
+    func prettyPrinted() -> String {
+        formattedString().removeEscapedSlashes()
     }
 }
 
