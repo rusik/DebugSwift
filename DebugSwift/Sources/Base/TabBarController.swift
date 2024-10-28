@@ -23,8 +23,11 @@ class TabBarController: UITabBarController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIView.animate(withDuration: DSFloatChat.animationDuration) {
-            WindowManager.showNavigationBar()
+
+        if !DebugSwift.App.options.contains(.hideFloatingButton) {
+            UIView.animate(withDuration: DSFloatChat.animationDuration) {
+                WindowManager.showNavigationBar()
+            }
         }
     }
 
